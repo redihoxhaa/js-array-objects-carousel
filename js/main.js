@@ -34,30 +34,6 @@ function prevPhoto() {
     }
 }
 
-function printTeamDOM(array) {
-    const fragment = document.createDocumentFragment();
-    for (let i = 0; i < array.length; i++) {
-        const divElement = document.createElement("li");
-        divElement.classList.add("team-member");
-        for (let key in array[i]) {
-            if (key !== "foto") {
-                const divInfo = document.createElement("div");
-                divInfo.classList.add(key);
-                divInfo.append(`${array[i][key]}`);
-                divElement.append(divInfo);
-            } else {
-                const fotoDiv = document.createElement("img");
-                fotoDiv.classList.add(key);
-                fotoDiv.src = `img/${array[i][key]}`;
-                divElement.append(fotoDiv);
-            }
-        }
-
-        fragment.append(divElement);
-    }
-    divContainer.append(fragment);
-}
-
 // OPERATIONS
 
 // Definizione variabili globali
@@ -108,29 +84,35 @@ let autoPlayFn = setInterval(nextPhoto, 3000);
 
 // Ciclo per inserimento dinamico immagini
 for (let i = 0; i < dataList.length; i++) {
+
+    // Creazione delle immagini
     const itemImageContainer = document.createElement("div");
-    const thumbnailImageContainer = document.createElement("div");
-    itemImageContainer.classList.add("item");
-    thumbnailImageContainer.classList.add("thumbnail");
-    thumbnailImageContainer.classList.add("blacked");
     const imageElement = document.createElement("img");
-    const thumbnailElement = document.createElement("img");
-    imageElement.src = `./img/${dataList[i]['photo']}`;
-    thumbnailElement.src = `./img/${dataList[i]['photo']}`;
-    imageElement.alt = `Immagine${i + 1}`;
-    thumbnailElement.alt = `Immagine${i + 1}`;
-    itemImageContainer.append(imageElement);
     const imageInfo = document.createElement("div");
-    imageInfo.classList.add("image-info");
     const imageTitle = document.createElement("h3");
+    const imageDescription = document.createElement("p");
+
+    itemImageContainer.classList.add("item");
+    imageElement.src = `./img/${dataList[i]['photo']}`;
+    imageElement.alt = `Immagine${i + 1}`;
+    itemImageContainer.append(imageElement);
+    imageInfo.classList.add("image-info");
     imageTitle.append(dataList[i]['name']);
     imageInfo.append(imageTitle);
-    const imageDescription = document.createElement("p");
     imageDescription.append(dataList[i]['description']);
     imageInfo.append(imageDescription);
     itemImageContainer.append(imageInfo);
-    thumbnailImageContainer.append(thumbnailElement);
     itemsElement.append(itemImageContainer);
+
+    // Creazione dei thumbnail
+    const thumbnailImageContainer = document.createElement("div");
+    const thumbnailElement = document.createElement("img");
+
+    thumbnailImageContainer.classList.add("thumbnail");
+    thumbnailImageContainer.classList.add("blacked");
+    thumbnailElement.src = `./img/${dataList[i]['photo']}`;
+    thumbnailElement.alt = `Immagine${i + 1}`;
+    thumbnailImageContainer.append(thumbnailElement);
     itemsThumbnails.append(thumbnailImageContainer);
 };
 
